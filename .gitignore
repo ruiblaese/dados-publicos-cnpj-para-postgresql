@@ -1,0 +1,5 @@
+.idea
+downloads/*.zip
+temp/*/
+.env
+
