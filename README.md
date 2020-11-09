@@ -2,15 +2,10 @@
     Dados publicos (CNPJ) para banco de dados PostgreSQL em Golang
 </h1>
 <p align="center">  
-  <img alt="Made by Rui" src="https://img.shields.io/badge/Made%20by-ruiblaese-%2304D361">
-  
+  <img alt="Made by Rui" src="https://img.shields.io/badge/Made%20by-ruiblaese-%2304D361">  
   <img alt="Made with Golang" src="https://img.shields.io/badge/Made%20with-Golang-%1f425f">  
-
-  <img alt="Made with Docker" src="https://img.shields.io/badge/Made%20with-Docker-%1f425f">     
-
-<img alt="Project top programing language" src="https://img.shields.io/github/languages/top/ruiblaese/dados-publicos-cnpj-para-postgresql">  
-
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/ruiblaese/dados-publicos-cnpj-para-postgresql">
+  <img alt="Project top programing language" src="https://img.shields.io/github/languages/top/ruiblaese/dados-publicos-cnpj-para-postgresql">  
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/ruiblaese/dados-publicos-cnpj-para-postgresql">   
 </p>
 
 <p align="center">
