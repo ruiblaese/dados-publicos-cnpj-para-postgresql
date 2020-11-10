@@ -16,6 +16,13 @@
 ## Descrição
 Projeto criado para "bricar" com Golang, ideia é pegar os dados publicos disponibilizados pela receita e transformar em uma base dados em um banco de dados relacional, nesse caso PostgreSQL.
 
+## Download Dados Publicos com todos CNPJ's
+
+| Data Download | Tamanho Download | Tamanho Descompactado | Tamanho Banco PostgreSQL | Tamanho Backup PostgreSQL | Link |
+|:-------------:|:----------------:|:---------------------:|:------------------------:|:-------------------------:|------|
+|   15-01-2020  |      6,06 GB     |        96,7 GB        |          22,5 GB         |          3,15 GB          |  [Link para Download](https://drive.google.com/file/d/1oTWhFzPsJLMQwfLCUd38berjjy1cfmhq/view?usp=sharing)    |
+
+
 ## Contato
 
 <a href="https://www.linkedin.com/in/ruiblaese/" target="_blank" >
