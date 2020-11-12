@@ -21,11 +21,15 @@ http://idg.receita.fazenda.gov.br/orientacao/tributaria/cadastros/cadastro-nacio
 
 ## Download Dados Publicos com todos CNPJ's
 
-| Versão | Data Download | Tamanho Download | Tamanho Descompactado | Tamanho Banco PostgreSQL | Tamanho Backup PostgreSQL | Link |
-|:------:|:-------------:|:----------------:|:---------------------:|:------------------------:|:-------------------------:|------|
-| 0.0.1  |   15-01-2020  |      6,06 GB     |        96,7 GB        |          22,5 GB         |          3,15 GB          |  [Link para Download](https://drive.google.com/file/d/1oTWhFzPsJLMQwfLCUd38berjjy1cfmhq/view?usp=sharing)    |
-| 0.0.2  |   10-01-2020  |      6,46 GB     |        102,0 GB        |          21,7 GB         |          3,38 GB          |  [Link para Download]()    |
+| Versão | Tempo Proc. | Data Download | Tamanho Download | Tamanho Descompactado | Tamanho Banco PostgreSQL | Tamanho Backup PostgreSQL | Link |
+|:------:|:---------:|:-------------:|:----------------:|:---------------------:|:------------------------:|:-------------------------:|------|
+| 0.0.1  |  6h       |   15-01-2020  |      6,06 GB     |        96,7 GB        |          22,5 GB         |          3,15 GB          |  [Link para Download](https://drive.google.com/file/d/1oTWhFzPsJLMQwfLCUd38berjjy1cfmhq/view?usp=sharing)    |
+| 0.0.2  |  12h      |   10-01-2020  |      6,46 GB     |        102,0 GB       |          21,7 GB         |          3,38 GB          |  [Link para Download]()    |
 
+## Change Log
+- **0.0.1**: Versão inicial, processado arquivos baixados, todos os dados em uma tabela
+- **0.0.2**: Corrigido problemas com ORM, iniciado melhoria de modelagem. Encontrado problema em algumas linhas, valores fora da posição, ainda em analise de como resolver
+ 
 
 ## Contato
 
