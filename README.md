@@ -16,6 +16,9 @@
 ## Descrição
 Projeto criado para "bricar" com Golang, ideia é pegar os dados publicos disponibilizados pela receita e transformar em uma base dados em um banco de dados relacional, nesse caso PostgreSQL.
 
+#### Site Dados Publicos CNPJ
+http://idg.receita.fazenda.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj
+
 ## Download Dados Publicos com todos CNPJ's
 
 | Versão | Data Download | Tamanho Download | Tamanho Descompactado | Tamanho Banco PostgreSQL | Tamanho Backup PostgreSQL | Link |

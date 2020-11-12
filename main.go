@@ -311,10 +311,7 @@ func downloadFile(filepath string, url string) (err error) {
 }
 
 func downloadTodosArquivosDeCnpj() {
-	/*
-		Site Dados Publicos CNPJ
-		http://idg.receita.fazenda.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj
-	*/
+
 	const LinkDownload = "http://200.152.38.155/CNPJ/"
 
 	for index := 10; index <= 20; index++ {
