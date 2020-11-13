@@ -15,6 +15,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -63,7 +64,36 @@ func main() {
 	log.Printf("took %s", elapsed)
 }
 
+var wg sync.WaitGroup
+
+func worker(input chan string) {
+	defer wg.Done()
+
+	dsn := os.Getenv("DSN_POSTGRES")
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	// Consumer: Process items from the input channel and send results to output channel
+	for line := range input {
+		linhaStruct := ConverteLinhaParaStruct(db, line)
+		err := db.Create(&linhaStruct).Error
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+}
+
 func LerArquivoESalvarNoBanco(arquivos []string, db *gorm.DB) {
+
+	input := make(chan string)
+	workers := 10
+
+	for i := 0; i < workers; i++ {
+		wg.Add(1)
+		go worker(input)
+	}
 
 	for _, arquivo := range arquivos {
 
@@ -76,11 +106,8 @@ func LerArquivoESalvarNoBanco(arquivos []string, db *gorm.DB) {
 		for scanner.Scan() {
 			line := toUtf8(scanner.Bytes())
 			if line[0] == '1' {
-				linhaStruct := ConverteLinhaParaStruct(db, line)
-				err := db.Create(&linhaStruct).Error
-				if err != nil {
-					fmt.Println(err)
-				}
+				input <- line
+
 			}
 		}
 		if err := scanner.Err(); err != nil {
@@ -89,6 +116,8 @@ func LerArquivoESalvarNoBanco(arquivos []string, db *gorm.DB) {
 
 	}
 
+	close(input)
+	wg.Wait()
 }
 
 func toUtf8(iso8859_1_buf []byte) string {
