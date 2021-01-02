@@ -26,6 +26,7 @@ http://idg.receita.fazenda.gov.br/orientacao/tributaria/cadastros/cadastro-nacio
 | 0.0.1  |  6h         |  08-11-20     |   15-01-20    |      6,06 GB     |        96,7 GB        |          22,5 GB         |          3,15 GB          |            |  [Link para Download](https://drive.google.com/file/d/1oTWhFzPsJLMQwfLCUd38berjjy1cfmhq/view?usp=sharing)    |
 | 0.0.2  |  12h        |  11-11-20     |   10-01-20    |      6,46 GB     |        102,0 GB       |          21,7 GB         |          3,38 GB          | 45.153.134 |  [Link para Download](https://drive.google.com/file/d/1utdRqViqZlji8J2eVckB4bAI8BgSReI5/view?usp=sharing)    |
 | 0.0.3  |  2h 37m     |  12-11-20     |   10-01-20    |      6,46 GB     |        102,0 GB       |          - - -           |          - - -            | 45.153.134 |  v 0.0.2    |
+| 0.1.0  |  5h 16m     |  02-01-21     |   02-01-21    |      -,-- GB     |        ---,- GB       |          - - -           |          - - -            | 46.536.906 |  v 0.1.0    |
 
 Tempo Proc.: Tempo de leitura e gravação dos arquivos texto para PostgreSQL  
 

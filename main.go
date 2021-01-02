@@ -4,10 +4,6 @@ import (
 	"archive/zip"
 	"bufio"
 	"fmt"
-	_ "github.com/google/uuid"
-	"github.com/joho/godotenv"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 	"io"
 	"log"
 	"net/http"
@@ -17,13 +13,37 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	_ "github.com/google/uuid"
+	"github.com/joho/godotenv"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+)
+
+var (
+	mensagemHttp string
 )
 
 func main() {
-	godotenv.Load()
-	start := time.Now()
+	mensagemHttp = "Aguarde, gerando banco de dados"
 
-	//downloadTodosArquivosDeCnpj()
+	go GeraBancoDeDadosComCNPJs()
+
+	r := gin.Default()
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": mensagemHttp,
+		})
+	})
+	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+}
+
+func GeraBancoDeDadosComCNPJs() {
+	time.Sleep(5 * time.Second)
+
+	start := time.Now()
+	godotenv.Load()
 
 	dsn := os.Getenv("DSN_POSTGRES")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
@@ -31,37 +51,18 @@ func main() {
 		panic("failed to connect database")
 	}
 
+	downloadTodosArquivosDeCnpj()
+
 	// Migrate the schema
 	db.AutoMigrate(&Empresa{})
 
-	var listaArquivosDescompactados []string
-
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_01\\K3241.K03200DV.D00904.L00001")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_02\\K3241.K03200DV.D00904.L00002")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_03\\K3241.K03200DV.D00904.L00003")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_04\\K3241.K03200DV.D00904.L00004")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_05\\K3241.K03200DV.D00904.L00005")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_06\\K3241.K03200DV.D00904.L00006")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_07\\K3241.K03200DV.D00904.L00007")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_08\\K3241.K03200DV.D00904.L00008")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_09\\K3241.K03200DV.D00904.L00009")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_10\\K3241.K03200DV.D00904.L00010")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_11\\K3241.K03200DV.D00904.L00011")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_12\\K3241.K03200DV.D00904.L00012")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_13\\K3241.K03200DV.D00904.L00013")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_14\\K3241.K03200DV.D00904.L00014")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_15\\K3241.K03200DV.D00904.L00015")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_16\\K3241.K03200DV.D00904.L00016")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_17\\K3241.K03200DV.D00904.L00017")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_18\\K3241.K03200DV.D00904.L00018")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_19\\K3241.K03200DV.D00904.L00019")
-	listaArquivosDescompactados = append(listaArquivosDescompactados, "temp\\DADOS_ABERTOS_CNPJ_20\\K3241.K03200DV.D00904.L00020")
-
-	//listaArquivosDescompactados = descompactaArquivos()
+	listaArquivosDescompactados := descompactaArquivos()
 	LerArquivoESalvarNoBanco(listaArquivosDescompactados, db)
 
 	elapsed := time.Since(start)
-	log.Printf("took %s", elapsed)
+	log.Printf("took %s", fmt.Sprint(elapsed))
+
+	mensagemHttp = "Banco de dados Pronto! Tempo: " + fmt.Sprint(elapsed)
 }
 
 var wg sync.WaitGroup
@@ -296,10 +297,11 @@ func descompactaArquivos() []string {
 			destino = strings.ReplaceAll(destino, ".zip", "")
 
 			fmt.Println("iniciando descompactacao", file, "->", destino)
-			Unzip(file, destino)
+			arquivosDescompactados, _ := Unzip(file, destino)
+			fmt.Println(file, "->", destino, files)
 			fmt.Println(file, "->", destino, "OK")
 
-			listaArquivosDescompactados = append(listaArquivosDescompactados, file)
+			listaArquivosDescompactados = append(listaArquivosDescompactados, arquivosDescompactados[0])
 		}
 
 	}
@@ -341,12 +343,16 @@ func downloadFile(filepath string, url string) (err error) {
 
 func downloadTodosArquivosDeCnpj() {
 
+	if _, err := os.Stat("downloads"); os.IsNotExist(err) {
+		os.Mkdir("downloads", 0755)
+	}
+
 	const LinkDownload = "http://200.152.38.155/CNPJ/"
 
-	for index := 10; index <= 20; index++ {
+	for index := 1; index <= 20; index++ {
 
 		var aux = ""
-		if index < 9 {
+		if index <= 9 {
 			aux = "0"
 		}
 		aux = aux + strconv.Itoa(index)

@@ -1,0 +1,23 @@
+version: '3'
+volumes:
+  dados:
+services:
+  db:
+    image: postgres:13    
+    volumes:      
+      - dados:/var/lib/postgresql/data      
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: empresas 
+    ports:
+      - "5432"      
+  app:
+    build: .
+    ports:
+      - "80:8080"
+    depends_on: 
+      - db
+    environment: 
+      DSN_POSTGRES: host=db user=postgres password=postgres dbname=empresas port=5432 sslmode=disable TimeZone=America/Sao_Paulo
+      
