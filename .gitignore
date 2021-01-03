@@ -2,4 +2,4 @@
 downloads/*.zip
 temp/*/
 .env
-
+*.exe
